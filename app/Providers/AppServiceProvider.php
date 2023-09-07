@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\Crawler\CrawlerService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +12,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(CrawlerService::class, function () {
+            return new CrawlerService();
+        });
     }
 
     /**
