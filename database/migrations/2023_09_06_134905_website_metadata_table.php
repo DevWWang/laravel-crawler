@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->string('screenshot_filename')->nullable();
             $table->string('body_filename')->nullable();
-            $table->timestamp('publish_date')->nullable();
+            $table->timestamp('published_time')->nullable();
             // created_at and updated_at of the record, not website
             $table->timestamps();
 
