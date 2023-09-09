@@ -34,8 +34,24 @@ class WebsiteMetadata extends Model
      * @var array
      */
     protected $casts = [
-        'publish_date' => 'datetime',
+        'published_time' => 'datetime',
     ];
+
+    /**
+     * Bootstrap any application services.
+     * 
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        // auto-sets values on creation
+        static::creating(function($model) {
+            $model->description = $model->description == "" ? null : $model->description;
+            $model->published_time = $model->published_time == "" ? null : $model->published_time;
+        });
+    }
 
     /**
      * Get the url request that owns the website metadata.
