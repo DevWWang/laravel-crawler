@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreURLRequest;
 use App\Services\Crawler\CrawlerService;
-use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class URLController extends Controller
 {
@@ -22,13 +23,15 @@ class URLController extends Controller
 
     /**
      * Display a listing of the resource.
+     * 
+     * @param  StoreURLRequest $request
      */
-    public function crawler(Request $request)
+    public function crawler(StoreURLRequest $request)
     {
-        $request->validate([
-            "url" => ["required", "url"]
-        ]);
-        
-        return response()->json();
+        // will return only validated data
+        $validated = $request->validated();
+        $urlRequest = $this->crawlerService->process($validated["url"]);
+
+        return response()->json($urlRequest, Response::HTTP_OK);
     }
 }

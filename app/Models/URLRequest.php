@@ -64,6 +64,6 @@ class URLRequest extends Model
      */
     public function website_metadata()
     {
-        return $this->hasOne(WebsiteMetadata::class);
+        return $this->hasOne(WebsiteMetadata::class, "request_id");
     }
 }
