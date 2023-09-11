@@ -26,7 +26,8 @@
                     Body XML Filename:&nbsp;
                     <small class="text-muted">
                         @if ($website_metadata['body_filename'] != null || $website_metadata['body_filename'] !== "")
-                        <a href="{{ $base_url.'/'.$website_metadata['body_filename'] }}" target="_blank">Original</a>
+                        <a href="{{ $base_url.'/'.$website_metadata['body_filename'] }}" target="_blank">Original</a>&nbsp;&nbsp;&nbsp;
+                        <a href="{{ route('url-request.xml', $hid) }}" target="_blank">{{ $website_metadata['body_filename'] }}</a>
                         @else
                         Not Found
                         @endif
