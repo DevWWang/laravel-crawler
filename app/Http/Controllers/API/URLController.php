@@ -55,4 +55,11 @@ class URLController extends Controller
         $resources = URLRequestResource::collection($urlRequests)->resolve();
         return view("crawler.history", ["urlRequests" => $resources]);
     }
+
+    public function detail($id)
+    {
+        $urlRequest = URLRequest::with("website_metadata")->findOrFail($id);
+        $resource = (new URLRequestResource($urlRequest))->resolveRelationship(true)->resolve();
+        return response()->view("crawler.detail", ["urlRequest" => $resource]);
+    }
 }
