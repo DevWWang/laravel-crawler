@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreURLRequest;
 use App\Http\Resources\URLRequestResource;
 use App\Models\URLRequest;
+use App\Models\WebsiteMetadata;
 use App\Services\Crawler\CrawlerService;
 use Illuminate\Http\Response;
 
@@ -60,6 +61,13 @@ class URLController extends Controller
     {
         $urlRequest = URLRequest::with("website_metadata")->findOrFail($id);
         $resource = (new URLRequestResource($urlRequest))->resolveRelationship(true)->resolve();
-        return response()->view("crawler.detail", ["urlRequest" => $resource]);
+        return view("crawler.detail", ["urlRequest" => $resource]);
+    }
+
+    public function xml($id)
+    {
+        $urlRequest = URLRequest::with("website_metadata")->findOrFail($id);
+        $xmlObject = $this->crawlerService->loadBodyXmlObject($urlRequest);
+        return response()->view("crawler.xml", ["xmlData" => $xmlObject])->header("Content-Type", "application/xml");
     }
 }

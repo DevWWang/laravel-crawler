@@ -61,6 +61,7 @@ class CrawlerService
     {
         $headers = [
             "Accept: */*",
+            "Content-type: application/xml"
         ];
 
         // set up curl to point to the requested URL
@@ -168,5 +169,19 @@ class CrawlerService
         }
 
         return $filename;
+    }
+
+    public function loadBodyXmlObject($urlRequestModel, $relationLoaded = false)
+    {
+        if (!$relationLoaded) {
+            $urlRequestModel = $urlRequestModel->load("website_metadata");
+        }
+        $disk = $urlRequestModel->getStorageDisk();
+        $folder = $urlRequestModel->host ?? "";
+        $path = $this->getPath($urlRequestModel->website_metadata->body_filename, $folder, $disk);
+        $xmlString = file_get_contents($path);
+        $xmlObject = simplexml_load_string($xmlString);
+        
+        return $xmlObject;
     }
 }

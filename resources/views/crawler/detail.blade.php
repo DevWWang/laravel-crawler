@@ -10,13 +10,13 @@
             <!--  -->
             <div class="card-body">
                 <h5 class="card-title">
-                    <a href="{{ $url }}">{{ $website_metadata['title'] }}</a>
+                    <a href="{{ $url }}">{{ $website_metadata['title'] ?? $url }}</a>
                 </h5>
                 <p class="card-text">
-                    <b>Description:&nbsp;</b>{{ $website_metadata['description'] ?? '' }}
+                    <b>Description:&nbsp;</b>{{ $website_metadata['description'] ?? 'Not Provided' }}
                 </p>
                 <p class="card-text">
-                    Published Time:&nbsp;<small class="text-muted">{{ $website_metadata['published_time'] ?? 'Not Found' }}</small>
+                    Published Time:&nbsp;<small class="text-muted">{{ $website_metadata['published_time'] ?? 'Not Provided' }}</small>
                     <br>
                     Crawled At:&nbsp;<small class="text-muted">{{ \Carbon\Carbon::createFromTimestamp($created_at)->toDateTimeString() }}</small>
                 </p>
@@ -26,7 +26,8 @@
                     Body XML Filename:&nbsp;
                     <small class="text-muted">
                         @if ($website_metadata['body_filename'] != null || $website_metadata['body_filename'] !== "")
-                        <a href="{{ $base_url.'/'.$website_metadata['body_filename'] }}" target="_blank">{{ $website_metadata['body_filename'] }}</a>
+                        <a href="{{ $base_url.'/'.$website_metadata['body_filename'] }}" target="_blank">Original</a>&nbsp;&nbsp;&nbsp;
+                        <a href="{{ route('url-request.xml', $hid) }}" target="_blank">{{ $website_metadata['body_filename'] }}</a>
                         @else
                         Not Found
                         @endif
