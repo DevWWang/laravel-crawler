@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 
 class StoreURLRequest extends FormRequest
 {
@@ -22,7 +24,13 @@ class StoreURLRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "url" => ["required", "url", "unique:url_requests"]
+            "url" => [
+                "required",
+                "url",
+                Rule::unique("url_requests")->where(function ($query) {
+                    return $query->where("status_code", Response::HTTP_OK);
+                })
+            ]
         ];
     }
 
