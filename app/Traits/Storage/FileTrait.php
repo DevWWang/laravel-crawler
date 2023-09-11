@@ -19,6 +19,14 @@ trait FileTrait
     }
 
     /**
+     * Get storage path
+     */
+    public function getPath($filename, $folder = "", $disk = "public")
+    {
+        return Storage::disk($disk)->path($folder."/".$filename);
+    }
+
+    /**
      * Create main directory
      * 
      * @param  $folder
@@ -55,7 +63,7 @@ trait FileTrait
             $countString = str_pad($count, 2, "0", STR_PAD_LEFT);
             $filenameToStore = $filename."_".$countString.".xml";
         }
-        $path = Storage::disk($disk)->path($folder."/".$filenameToStore);
+        $path = $this->getPath($filenameToStore, $folder, $disk);
         $file = file_put_contents($path, $content.PHP_EOL , LOCK_EX);
         if ($file === false) {
             die('Couldn\'t save body to '.$folder."/".$filenameToStore);
