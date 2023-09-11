@@ -2,9 +2,12 @@
 
 namespace App\Providers;
 
+use App\Services\HashId\HashIdService;
+use Exception;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +38,15 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
+        });
+
+        Route::bind('id', function($hashId){
+            try {
+                return (new HashIdService())->decode($hashId);
+            }
+            catch (Exception $e) {
+                abort(Response::HTTP_NOT_FOUND, 'No item found with this id.');
+            }
         });
     }
 }
