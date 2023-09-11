@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\Model\RouteKeyTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class URLRequest extends Model
 {
-    use HasFactory;
+    use HasFactory, RouteKeyTrait;
 
     const DISK_NAME = "url-host";
     
@@ -58,12 +59,20 @@ class URLRequest extends Model
             $model->path = $parsedUrl["path"] ?? null;
         });
     }
-
+    
     /**
      * Get the metadata associated with the url.
      */
     public function website_metadata()
     {
         return $this->hasOne(WebsiteMetadata::class, "request_id");
+    }
+
+    /**
+     * Get the custom storage disk name
+     */
+    public function getStorageDisk()
+    {
+        return self::DISK_NAME;
     }
 }
