@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\Model\RouteKeyTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class WebsiteMetadata extends Model
 {
-    use HasFactory;
+    use HasFactory, RouteKeyTrait;
 
     /**
      * The table associated with the model.
