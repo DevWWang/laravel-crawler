@@ -138,10 +138,10 @@ Load the webpage and display the result
 ![Alt text](/public/usage-examples/url-result.png "Url Crawler Result")
 
 Click `More Detail` to show all the information gathered
-![Alt text](/public/usage-examples/url-detail.png "Url Crawler Result")
+![Alt text](/public/usage-examples/url-detail.png "Url Crawler Detail")
 
 View Request History using `History` on top in navigation bar
-![Alt text](/public/usage-examples/url-history.png "Url Crawler Result")
+![Alt text](/public/usage-examples/url-history.png "Url Crawler History")
 
 <!-- CONTRIBUTING -->
 ## Contributing
