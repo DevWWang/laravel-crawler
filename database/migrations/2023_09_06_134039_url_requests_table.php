@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('host')->nullable();
             $table->string('path')->nullable();
             $table->unsignedInteger('status_code')->nullable();
-            $table->string('error_message')->nullable();
+            $table->text('error_message')->nullable();
             $table->timestamps();
         });
     }

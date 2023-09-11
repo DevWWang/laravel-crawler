@@ -56,6 +56,13 @@ return [
             'throw' => false,
         ],
 
+        'url-host' => [
+            "driver" => "local",
+            "root" => env("URL_STORAGE_ROOT", storage_path("app/public")),
+            "url" => env("URL_STORAGE_URL", env("APP_URL")."/storage"),
+            'visibility' => 'public',
+            'throw' => false,
+        ],
     ],
 
     /*
