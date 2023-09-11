@@ -44,7 +44,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-This project, powered by Laravel, is a a web crawler rool designed to discover and collect data from website based on the url submitted by user. This Laravel-based crawler take a screenshot of the webpage and automates the process of extracting information such as title, description, and body.
+This web crawler project, powered by Laravel, is designed to discover and collect data from website based on the url submitted by user. This Laravel-based crawler take a screenshot of the webpage and automates the process of extracting information such as title, description, and body.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -92,7 +92,11 @@ Please check the official laravel installation guide for server requirements bef
    ```sh
    php artisan migrate
    ```
-6. Start the local development server
+6. Create the symbolic link,
+   ```sh
+   php artisan storage:link
+   ```
+7. Start the local development server
    ```sh
    php artisan serve
    ```
@@ -118,14 +122,26 @@ You can now access the project at http://localhost
     - [ ] body
     - [x] ceated at (crawled at)
 
+Bug to Fix:
+Unable to dispaly XML file in view.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
 <!-- USAGE -->
 ## Usage
+Enter the url that you want to crawl at http://localhost
+![Alt text](/public/usage-examples/url-request.png "Url Crawler Request Home Page")
 
+Load the webpage and display the result
+![Alt text](/public/usage-examples/url-result.png "Url Crawler Result")
 
+Click `More Detail` to show all the information gathered
+![Alt text](/public/usage-examples/url-detail.png "Url Crawler Result")
+
+View Request History using `History` on top in navigation bar
+![Alt text](/public/usage-examples/url-history.png "Url Crawler Result")
 
 <!-- CONTRIBUTING -->
 ## Contributing
