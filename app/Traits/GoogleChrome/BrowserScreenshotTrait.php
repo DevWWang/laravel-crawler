@@ -22,13 +22,18 @@ trait BrowserScreenshotTrait
      */
     public function captureAndSaveAsImage($url, $pathToImage)
     {
+        // To temporarily extend the time limit in your script
+        $maxTime = 180;
+        ini_set("max_execution_time", $maxTime); // 3 minutes
+
         $result = [];
         try {
             $browsershot = Browsershot::url($url)
                 ->noSandbox()
                 ->waitUntilNetworkIdle(false)
                 ->ignoreHttpsErrors()
-                ->fullPage()
+                ->windowSize(1920, 1080)
+                ->timeout($maxTime)
                 ->save($pathToImage);
         }
         catch (ProcessFailedException $e) {
