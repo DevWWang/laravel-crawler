@@ -63,11 +63,4 @@ class URLController extends Controller
         $resource = (new URLRequestResource($urlRequest))->resolveRelationship(true)->resolve();
         return view("crawler.detail", ["urlRequest" => $resource]);
     }
-
-    public function xml($id)
-    {
-        $urlRequest = URLRequest::with("website_metadata")->findOrFail($id);
-        $xmlObject = $this->crawlerService->loadBodyXmlObject($urlRequest);
-        return response()->view("crawler.xml", ["xmlData" => $xmlObject])->header("Content-Type", "application/xml");
-    }
 }
