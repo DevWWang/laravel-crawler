@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Traits\Storage\FileTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class WebsiteMetadata extends Model
 {
@@ -56,8 +58,8 @@ class WebsiteMetadata extends Model
     /**
      * Get the url request that owns the website metadata.
      */
-    public function urlRequest()
+    public function url_request()
     {
-        return $this->belongsTo(URLRequest::class)->withTimestamps();
+        return $this->belongsTo(URLRequest::class);
     }
 }
