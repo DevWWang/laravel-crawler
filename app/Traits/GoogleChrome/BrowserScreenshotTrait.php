@@ -6,6 +6,7 @@ use Spatie\Browsershot\Browsershot;
 use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
 use Spatie\Browsershot\Exceptions\ElementNotFound;
 use Spatie\Browsershot\Exceptions\UnsuccessfulResponse;
+use Spatie\Image\Manipulations;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 use Throwable;
@@ -24,11 +25,11 @@ trait BrowserScreenshotTrait
         $result = [];
         try {
             $browsershot = Browsershot::url($url)
-                ->waitUntilNetworkIdle()
+                ->noSandbox()
+                ->waitUntilNetworkIdle(false)
                 ->ignoreHttpsErrors()
-                ->fullPage();
-            
-            $browsershot->save($pathToImage);
+                ->fullPage()
+                ->save($pathToImage);
         }
         catch (ProcessFailedException $e) {
             $errorMessage = "ERROR PROCESS_FAILED";

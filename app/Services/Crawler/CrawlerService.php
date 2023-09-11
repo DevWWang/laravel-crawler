@@ -4,24 +4,28 @@ namespace App\Services\Crawler;
 
 use App\Models\URLRequest;
 use App\Models\WebsiteMetadata;
+use App\Traits\GoogleChrome\BrowserScreenshotTrait;
 use App\Traits\Storage\FileTrait;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
 
 class CrawlerService
 {
-    use FileTrait;
+    use BrowserScreenshotTrait, FileTrait;
     
     /**
      * @param  $url
+     * @param  URLRequest $previousUrlRequest
      * @return
      */
-    function process($url)
+    function process($url, $previousUrlRequest = null)
     {
-        $urlRequestModel = $this->storeUrlCrawlerRequest($url);
+        $urlRequestModel = $previousUrlRequest ?? $this->storeUrlCrawlerRequest($url);
+        // execute the request
         $content = $this->getContentFromURL($urlRequestModel);
+        // analyze the content and gather information
         $dom = $this->loadContentToDom($content);
         $metadata = $this->getWebsiteMetadataFromDom($urlRequestModel, $dom);
+        $metadata["screenshot_filename"] = $this->takeScreenshot($urlRequestModel);
         $this->storeWebsiteMetadata($urlRequestModel, $metadata);
 
         return $urlRequestModel->refresh()->load("website_metadata");
@@ -141,10 +145,28 @@ class CrawlerService
      */
     function saveBodyXMLToStorage(URLRequest $urlRequestModel, $bodyStr)
     {
+        $disk = $urlRequestModel->getStorageDisk();
         $folder = $urlRequestModel->host ?? "";
-        $this->createMainDirectoryIfNotExists($folder, URLRequest::DISK_NAME);
-        $filename = $this->saveBodyStringAsXML($bodyStr, $folder, URLRequest::DISK_NAME);
+        $this->createMainDirectoryIfNotExists($folder, $disk);
+        $filename = $this->saveBodyStringAsXML($bodyStr, $folder, $disk);
         
+        return $filename;
+    }
+
+    function takeScreenshot(URLRequest $urlRequestModel)
+    {
+        $disk = $urlRequestModel->getStorageDisk();
+        $folder = $urlRequestModel->host ?? "";
+        $filename = $this->getDefaultNameUsingTime().".jpg";
+        $path = $this->getPath($filename, $folder, $disk);
+        $convertedResult = $this->captureAndSaveAsImage($urlRequestModel->url, $path);
+        if (!empty($convertedResult)) {
+            $urlRequestModel->status_code = $convertedResult["code"];
+            $urlRequestModel->error_message = $convertedResult["errors"];
+            $urlRequestModel->save();
+            die('Couldn\'t capture the webpage (Browsershot error): '. $convertedResult["message"]);
+        }
+
         return $filename;
     }
 }
