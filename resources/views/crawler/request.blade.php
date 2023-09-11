@@ -6,6 +6,10 @@
         <!-- CROSS Site Request Forgery Protection -->
         @csrf
         <div class="form-group">
+            <div class="alert alert-warning" role="alert">
+                <strong>Please be patient!</strong><br>
+                It might take up a while to process the request. Thank you for your cooperation
+            </div>
             <label for="url"><b>Please enter an https:// URL:</b></label>
             <input type="url"
                 class="mt-2 mb-2 form-control {{ $errors->has('url') ? 'is-invalid' : '' }}"
